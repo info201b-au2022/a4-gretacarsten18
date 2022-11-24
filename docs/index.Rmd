@@ -1,7 +1,7 @@
 ---
-title: "Your A4 Report Title (TODO: Revise title)"
-author: "Your Name"
-date: '2022-11-01'
+title: "Incarceration Trends in the United States (1970-2018) (TODO: Revise title)"
+author: "Greta Carsten"
+date: '2022-11-18'
 output: html_document
 ---
 
@@ -11,7 +11,7 @@ source("../source/analysis.R")
 ```
 
 ## Abstract 
-[TODO: Include a short abstract (about 50 words)]
+Throughout this assignment, I looked very closely and analyzed **Incarceration Trends in the United States from the years 1970 to 2018**. Within this data, we can look at the rates of different *demographics* in jail or prison. By looking at this, we can find many trends of *inequality* within the **United States legal system** regarding *incarceration*. Is is extremely important that we continue to study this data in order for us to make **change** within the **United States**. 
 
 # Test (TODO: Remove before submission!!)
 ```{r echo=FALSE}
@@ -34,12 +34,44 @@ print(sum)
 ```
 
 ## Introduction 
-[TODO]
+
+**Incarceration Trends within the United States** is something that we need to look analyze, and closely study in order to make *change* within the **United States legal system**. In the *justice system* of the **United States** many people are being wrongfully accused of a crime, and put in jail or prison. Throughout this data, we can look at the amount of people in jail by different *demographics* such as race, gender, county, state, land density and many more factors. Analyzing this data can show us trends, and see if there are specific *places* or *demographics* that have higher rates of incarceration, and we can compare these ratios and see if one place has higher amounts of incarceration levels. It is extremely important that we study this *incarceration trends* as they can help us make changes in our current legal system. Throughout this assignment, I closely analyzed this data, and learned various things. 
+
 
 ## Data Summary 
-[TODO]
 
-[TODO ... other sections ... See Canvas for details]
+jail_pop_ratio <- us_total_jail_pop_county_state_year_2018 %>%
+  select(
+    jail_pop_ratio,
+    state
+  )
+View(jail_pop_ratio)
+
+This code is showing the ratio of the top ten most populated states, and a ratio 
+of their total jail population compared to their total state population. From this data, we can see that Georgia, Florida, and Pennsylvania have the highest ratios of jail populations. From this data we can study why these states have a significantly higher ratio than the other most highly populated states in the United States. 
+
+get_jail_pop_by_states <- function(states) {
+  states_data <- incarceration_trends %>%
+    filter(state %in% states) %>%
+    group_by(year, state) %>%
+    summarise(total_jail_pop = sum(total_jail_pop, na.rm = TRUE))
+  return(states_data)
+  
+This function allows us to see how there are some states with much higher incarceration trends than others. For example, California has a much higher incarcerated population than Washington. Is this solely because of Californias higher population, more crime being committed in California, or are there other factors such as systemic racism. 
+
+
+
+get_king_county_jail_pop_data <- incarceration_trends %>%
+    select(
+      year,
+      state,
+      female_jail_pop,
+      male_jail_pop,
+      county_name,
+    ) 
+View(get_king_county_jail_pop_data)
+This code allowed me to compare the amount of males in jail, and females in jail
+within King County, WA between the years 1970 to 2018. From this data we can visibly see that men have a much higher incarceration rate than females. This raises the question of are more males being wrongfully accussed of a crime than females, or are they just simply committing more crimes. It raises an important question. 
 
 _All the very best with your work!_
 
