@@ -1,5 +1,5 @@
 ---
-title: "Incarceration Trends in the United States (1970-2018) (TODO: Revise title)"
+title: "Incarceration Trends in the United States (1970-2018)"
 author: "Greta Carsten"
 date: '2022-11-18'
 output: html_document
@@ -73,5 +73,40 @@ View(get_king_county_jail_pop_data)
 This code allowed me to compare the amount of males in jail, and females in jail
 within King County, WA between the years 1970 to 2018. From this data we can visibly see that men have a much higher incarceration rate than females. This raises the question of are more males being wrongfully accussed of a crime than females, or are they just simply committing more crimes. It raises an important question. 
 
+
+plot(plot_jail_pop_for_us(get_year_jail_pop))  
+
+Between the years 1970 and 2018 we have seen a general increase in total incarcerated population
+within the United States. We can see that the lowest that the incarcerated population has been was in the 
+1970s and the highest was in the 2010s. We can conclude that there has been a significant increase in 
+incarcerated populations but why has there been such a dramatic increase in jail population? 
+  
+plot(plot_jail_pop_by_states(c("WA", "NC", "CA", "NY", "FL")))
+
+In this line graph we are looking at the total incarceration population from 1970-2018
+in five states: California, Florida, North Carolina, New York, and Washington. From
+this chart, we can observe a general increase in all five states, except for New York when around
+2000 they start to see a general decrease in total numbers. California has had the highest amounts
+of incarceration, but that is not surprising due to their population being the largest. 
+A question to ask from this chart is was caused New Yorks incarceration decline around
+the 2000s? 
+
+plot(plot_king_county_data_1970_to_2018())
+
+In this chart we are looking at King County, Washingtons total jail population by gender 
+from 1970-2018. In this chart we can see an increase in jail population for both genders until 
+the 2000s, however, there has been a decline in total numbers since. Another thing we can 
+observe is how the population has a significanlty higher incarcerated male population
+compared to females. Why do men have a much higher rate of incarceration? 
+
+
+ coord_map()
+ 
+This map is showing the top ten most populated states in the United States, and there
+ratio of population in jail compared to the total population. From this map is it visible 
+that states with the highest populations, for example, California, do not always have the 
+highest percentage of amount of people in jail. For example, Georgia, has the highest
+percentage of people in jail even though it is not the highest populated states. Why
+do some states have a higher ratio of imprisoned people than other states?
 _All the very best with your work!_
 
