@@ -1,8 +1,8 @@
 library(tidyverse)
+library(ggplot2)
 
 # The functions might be useful for A4
 source("../source/a4-helpers.R")
-
 
 
 ## Test queries ----
@@ -23,9 +23,49 @@ test_query2 <- function(num=6) {
 ## Section 2  ---- 
 #----------------------------------------------------------------------------#
 # Your functions and variables might go here ... <todo: update comment>
+incarceration_trends <- read.csv("https://raw.githubusercontent.com/vera-institute/incarceration-trends/master/incarceration_trends.csv")
+View(incarceration_trends)
+
+us_total_jail_pop_county_state_year <- incarceration_trends %>%
+  select(
+    year, 
+    county_name, 
+    state,
+    total_pop,
+    total_jail_pop
+  )
+
+us_total_jail_pop_county_state_year_2018 <- us_total_jail_pop_county_state_year %>%
+  filter(year == 2018) %>%
+  filter(state %in% c("CA", "TX", "FL", "NY", "PA", "IL", "OH", "GA", "NC", "MI")) %>%
+  group_by(state) %>%
+  summarise(total_jail_pop = sum(total_jail_pop, na.rm = TRUE), total_pop=sum(total_pop, na.rm = TRUE), jail_pop_ratio=(sum(total_jail_pop/total_pop)))
 #----------------------------------------------------------------------------#
 
+jail_pop_ratio <- us_total_jail_pop_county_state_year_2018 %>%
+  select(
+    jail_pop_ratio,
+    state
+  )
+View(jail_pop_ratio)
 
+get_jail_pop_by_states <- function(states) {
+  states_data <- incarceration_trends %>%
+    filter(state %in% states) %>%
+    group_by(year, state) %>%
+    summarise(total_jail_pop = sum(total_jail_pop, na.rm = TRUE))
+  return(states_data)
+}
+  
+  get_king_county_jail_pop_data <- incarceration_trends %>%
+    select(
+      year,
+      state,
+      female_jail_pop,
+      male_jail_pop,
+      county_name,
+    ) 
+  View(get_king_county_jail_pop_data)
 
 
 
@@ -65,7 +105,7 @@ plot_jail_pop_for_us <- function(get_year_jail_pop)  {
     )
   return(plot_jail_pop_data_for_us)   
 } 
-plot(plot_jail_pop_for_us(get_year_jail_pop))  
+plot(plot_jail_pop_for_us(get_year_jail_pop))
 
   
   
@@ -122,8 +162,8 @@ View(get_king_county_jail_pop_data)
 
 plot_king_county_data_1970_to_2018 <- function() { 
   king_county_plot <- ggplot(data = get_king_county_jail_pop_data, aes (x = year)) +
-  geom_line(aes(y=female_jail_pop, color="female")) +
   geom_line(aes(y=male_jail_pop, color="male")) +
+    geom_line(aes(y=female_jail_pop, color="female")) +
     labs(
       x = "Years (1970-2018)", 
       y = "Jail Population in King County by Male and Female",
@@ -149,22 +189,20 @@ us_total_jail_pop_county_state_year <- incarceration_trends %>%
     total_pop,
     total_jail_pop
   )
-View(us_total_jail_pop_county_state_year)
 
 us_total_jail_pop_county_state_year_2018 <- us_total_jail_pop_county_state_year %>%
   filter(year == 2018) %>%
   filter(state %in% c("CA", "TX", "FL", "NY", "PA", "IL", "OH", "GA", "NC", "MI")) %>%
   group_by(state) %>%
-  summarise(total_jail_pop = sum(total_jail_pop, na.rm = TRUE), total_pop=sum(total_pop, na.rm = TRUE), jail_pop_ratio=(sum(total_jail_pop/total_pop)))
+summarise(total_jail_pop = sum(total_jail_pop, na.rm = TRUE), total_pop=sum(total_pop, na.rm = TRUE), jail_pop_ratio=(sum(total_jail_pop/total_pop)))
 
-View(us_total_jail_pop_county_state_year_2018)
 
-jail_pop_ratio <- us_total_jail_pop_county_state_year_2018%>%
+jail_pop_ratio <- us_total_jail_pop_county_state_year_2018 %>%
   select(
     jail_pop_ratio,
     state
   )
-View(jail_pop_ratio)
+
 
  #states_for_plot <- us_total_jail_pop_county_state_year_2018(
     #lat = c(36.7783, 31.9686, 27.6648, 40.7128, 41.2033, 40.6331, 40.4173, 32.1656, 35.7596, 44.3148),
